@@ -5,11 +5,13 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useRouter } from 'next/router'
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { jwtDecode } from 'jwt-decode'
 
 import TextField from '@/components/common/TextField'
 import { fetchWithTimeout } from '@/utils/common/fetchWithTimeout'
 import { useAuth } from '@/utils/hook/useAuth'
 import { BASE_URL } from '@/utils/constants'
+import { AuthType } from './providers/Auth'
 
 interface LoginResponse {
   message?: string
@@ -91,7 +93,9 @@ export default function LoginComponent(): JSX.Element {
     }
 
     // Save token
-    signIn(resp.token)
+    const authData: AuthType = jwtDecode(resp.token)
+    authData.token = resp.token
+    signIn(authData)
     router.push('/todo')
   }
 

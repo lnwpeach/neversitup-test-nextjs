@@ -1,11 +1,10 @@
 import CssBaseline from '@mui/material/CssBaseline'
-// import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 
 import Providers from '@/components/providers'
-import theme from '@/lib/theme'
 import { pageWithoutAuth } from '@/utils/constants'
+import { isAuth } from '@/components/providers/Auth'
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props
@@ -25,7 +24,8 @@ export default function MyApp(props: AppProps) {
 
 MyApp.getInitialProps = ({ ctx: { req, res }, router }: { ctx: any; router: any }) => {
   if (!!req && !!res && !pageWithoutAuth.includes(router.route)) {
-    if (!req?.cookies.auth) {
+    const auth = req?.cookies.auth
+    if (!isAuth(auth)) {
       res.writeHead(307, { Location: '/login' })
       res.end()
     }
@@ -33,7 +33,7 @@ MyApp.getInitialProps = ({ ctx: { req, res }, router }: { ctx: any; router: any 
 
   return {
     pageProps: {
-      uDataFromServer: req?.cookies.auth,
+      dataFromServer: req?.cookies.auth,
     },
   }
 }

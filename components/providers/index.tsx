@@ -21,6 +21,7 @@ export default function Providers({
     <Compose
       components={[
         [AuthProvider, { dataFromServer }],
+        [ThemeProvider, { theme }],
       ]}
     >
       {children}

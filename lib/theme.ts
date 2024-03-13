@@ -12,7 +12,7 @@ export const sarabun = Sarabun({
 const theme = createTheme({
   palette: {
     background: {
-      default: '#E2F4FF',
+      default: '#bbb',
     },
     primary: {
       main: '#0066FF',

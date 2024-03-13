@@ -6,13 +6,14 @@ interface FetchOptions extends RequestInit {
 }
 
 export function useApi(): (url: string, options?: FetchOptions) => Promise<any> {
-  const { token } = useAuth()
+  const { auth } = useAuth()
 
   return async (url: string, options?: FetchOptions) => {
     return await fetchWithTimeout(url, {
       ...options,
       headers: {
-        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth?.token}`,
         ...options?.headers,
       },
     })

@@ -13,7 +13,8 @@ export async function fetchWithTimeout<T>(url: string, options: FetchOptions = {
       signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
-      }
+        ...options?.headers,
+      },
     })
     clearTimeout(timeoutId)
     return await response.json()
